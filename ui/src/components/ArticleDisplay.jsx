@@ -5,7 +5,7 @@ const ArticleDisplay = ({ article }) => {
   const content = article.content;
 
   return (
-    <article className="article">
+    <article className="bin article">
       <h2 className="article-title">{title}</h2>
       {content.map((paragraph, i) => (
         <p key={i}>{paragraph}</p>

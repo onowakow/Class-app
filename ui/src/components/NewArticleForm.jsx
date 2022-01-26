@@ -5,7 +5,7 @@ import Button from "react-bootstrap/Button";
 
 const initialInputs = {
   title: "",
-  type: "Content"
+  type: "text",
 };
 
 const NewArticleForm = ({ handleNewArticle }) => {
@@ -19,34 +19,41 @@ const NewArticleForm = ({ handleNewArticle }) => {
     });
   };
 
+  console.log(inputs)
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (inputs.title === "") {
-      console.log('Warning: No blank titles.')
-      return 
+      console.log("Warning: No blank titles.");
+      return;
     }
-    
+
     handleNewArticle(inputs.title);
     setInputs(initialInputs);
-
   };
 
   return (
-    <div className="form-container">
-      <p>New section: {inputs.title !== "" ? <b>{inputs.title}</b> : null}</p>
-      <Form onSubmit={handleSubmit} className="input-form">
+    <div className="bin form-container">
+      <h3>Create new section: <em>{inputs.title}</em></h3>
+      <p>
+        Choose your section type and give it a name. Sections can currently be
+        text or a quiz. After creating the section, you will be
+        able to add content to it. Don't worry: you will be able to edit the
+        title and section type at any point.
+      </p>
+      <Form onSubmit={handleSubmit} className="bin input-form">
         <Form.Group>
           <Form.Label>Section type</Form.Label>
-          <Form.Select 
+          <Form.Select
             className="form-control"
             name="type"
             value={inputs.type}
             onChange={handleInputChange}
           >
-            <option>Content</option>
-            <option>Quiz</option>
-            <option>Other</option>
+            <option value="text">Text</option>
+            <option value="quiz">Quiz</option>
+            <option value="other">Other</option>
           </Form.Select>
         </Form.Group>
         <Form.Group>

@@ -1,22 +1,40 @@
-import React from 'react'
-import Button from 'react-bootstrap/Button'
+import React from "react";
+import Button from "react-bootstrap/Button";
 
-const NavigationBar = ({ handleModeChange, mode }) => {
-
+const NavigationBar = ({ editorIsHome, changeEditView, handleModeChange, mode }) => {
   const handleClick = () => {
-    if (mode === 'editing') {
-      handleModeChange('viewing')
+    if (mode === "editing") {
+      handleModeChange("viewing");
     } else {
-      handleModeChange('editing')
+      handleModeChange("editing");
     }
-  }
+  };
 
   return (
-    <nav className='nav-bar'>
-      <h1 className='nav-element'>Class app</h1>
-      <Button className='nav-element' id='mode-change-btn' onClick={handleClick} variant='dark'>{mode}</Button>
+    <nav id="nav-bar">
+      <div>
+        <h1>Class app</h1>
+      </div>
+      <div>
+        <Button
+          className="nav-btn"
+          onClick={handleClick}
+          variant="dark"
+        >
+          {mode}
+        </Button>
+        {mode === "editing" && editorIsHome === false ? (
+          <Button 
+            className="nav-btn" 
+            variant="warning"
+            onClick={() => changeEditView('home')}
+          >
+            Editor home
+          </Button>
+        ) : null}
+      </div>
     </nav>
-  )
-}
+  );
+};
 
-export default NavigationBar
+export default NavigationBar;

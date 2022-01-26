@@ -3,11 +3,16 @@ import Button from 'react-bootstrap/Button'
 
 const EditingControlBar = () => {
   return (
-    <nav id='edit-control-bar'>
-      <Button className='edit-control-button' variant='primary'>Add paragraph</Button>
-      <Button className='edit-control-button' variant='secondary'>Edit</Button>
-      <Button className='edit-control-button' variant='warning'>Close editor</Button>
-      <Button className='edit-control-button' variant='danger'>Delete section</Button>
+    <nav className='bin' id='edit-control-bar'>
+      <div className='left-controls'>
+        <Button className='nav-btn' variant='primary'>New section</Button>
+      </div>
+      <div className='right-controls'>
+      <Button className='nav-btn' variant='primary'>Add paragraph</Button>
+      <Button className='nav-btn' variant='secondary'>Edit</Button>
+      <Button className='nav-btn' variant='warning'>Close editor</Button>
+      <Button className='nav-btn' variant='danger'>Delete section</Button>
+      </div>
     </nav>
   )
 }

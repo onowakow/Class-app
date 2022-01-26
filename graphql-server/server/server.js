@@ -14,6 +14,11 @@ const articleDB = [
     id: 1,
     title: "Getting reoriented with this project",
     content: ["I am trying to remember how to query/mutate the server from the ui..."]
+  },
+  {
+    id: 2,
+    title: "Cats and Dogs",
+    content: []
   }
 ]
 
