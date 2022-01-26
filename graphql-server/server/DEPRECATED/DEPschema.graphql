@@ -1,0 +1,19 @@
+type Query {
+  info: String!
+  userList: [User!]!
+}
+
+type Mutation {
+  setInfo(info: String!): String
+  createUser(user: UserInput!): User!
+}
+
+type User {
+  id: ID!
+  name: String!
+}
+
+"Pared down user"
+input UserInput {
+  name: String!
+}
