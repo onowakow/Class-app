@@ -92,3 +92,21 @@ h3 {
   justify-content: center;
   display: flex;
 }
+
+#section-edit-control-nav {
+  display: flex;
+  justify-content: center;
+}
+
+#new-section-btn {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 1em
+}
+
+.textarea-add-text {
+  resize: none;
+  width: 100%;
+  height: 50vh;
+}

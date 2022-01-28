@@ -8,7 +8,7 @@ const initialInputs = {
   type: "text",
 };
 
-const NewArticleForm = ({ handleNewArticle }) => {
+const NewArticleForm = ({ handleNewArticle, handleCancel }) => {
   const [inputs, setInputs] = useState(initialInputs);
 
   const handleInputChange = (event) => {
@@ -82,6 +82,9 @@ const NewArticleForm = ({ handleNewArticle }) => {
         */}
         <Button variant="primary" type="submit">
           Add section
+        </Button>
+        <Button className="nav-btn" variant="warning" onClick={handleCancel}>
+          Cancel
         </Button>
       </Form>
     </div>

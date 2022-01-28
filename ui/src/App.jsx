@@ -64,8 +64,12 @@ const App = () => {
     setEditView(view);
   };
 
-  const handleModeChange = (mode) => {
-    setMode(mode);
+  const toggleModeChange = () => {
+      if (mode === "editing") {
+        setMode('viewing')
+      } else {
+        setMode('editing')
+      }
   };
 
   const handleArticleSelect = (articleIndex) => {
@@ -79,12 +83,16 @@ const App = () => {
 
       const articles = await getArticles();
       setArticles(articles);
-
+      setEditView('home')
       setArticleSelect(id);
     } catch (err) {
       console.log("Error", err);
     }
   };
+
+  const handleEditText = () => {
+    console.log("Edit text")
+  }
 
   const getSelectedArticle = (id) => {
     return articles.find((article) => article.id == id);
@@ -98,7 +106,7 @@ const App = () => {
             editorIsHome={editView === "home" ? true : false}
             changeEditView={handleEditViewChange}
             mode={mode}
-            handleModeChange={handleModeChange}
+            toggleModeChange={toggleModeChange}
           />
         </Row>
         <Row>
@@ -108,17 +116,20 @@ const App = () => {
               handleArticleSelect={handleArticleSelect}
             />
           </Col>
-          <Col xs={10}>
+          <Col id='article-edit-display' xs={10}>
             <ArticleDisplay
+              mode={mode}
+              saveText={handleEditText}
               article={
                 getSelectedArticle(articleSelect) || {
                   title: "",
-                  content: [""],
+                  content: "",
                 }
               }
             />
             {mode === "editing" ? (
               <Editor
+                handleCancel={() => setEditView('home')}
                 changeEditView={handleEditViewChange}
                 editView={editView}
                 handleNewArticle={handleNewArticle}

@@ -12,7 +12,7 @@ const EditCategory = ({ changeEditView }) => {
         New section
       </Button>
       <Button 
-        onClick={() => changeEditView("editSection")}
+        onClick={() => changeEditView("section")}
         className="nav-btn" 
         variant="secondary"
       >

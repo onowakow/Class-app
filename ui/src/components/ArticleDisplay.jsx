@@ -1,16 +1,31 @@
 import React from "react";
+import { useState, useEffect } from "react";
+import SectionEditControlBar from "./SectionEditControlBar.jsx";
+import ArticleEditor from "./ArticleEditor.jsx";
 
-const ArticleDisplay = ({ article }) => {
-  const title = article.title;
+// mode can be 'editing' or 'viewing.'
+
+const ArticleDisplay = ({ saveText, article, mode }) => {
+  const [isTextEdit, setIsTextEdit] = useState(false);
   const content = article.content;
+  const title = article.title;
 
   return (
-    <article className="bin article">
-      <h2 className="article-title">{title}</h2>
-      {content.map((paragraph, i) => (
-        <p key={i}>{paragraph}</p>
-      ))}
-    </article>
+    <>
+      <div className="bin article">
+        <article>
+          <h2 className="article-title">{title}</h2>
+          {isTextEdit ? <ArticleEditor content={content} /> : <>{ content }</>}
+        </article>
+        {mode === "editing" ? (
+          <SectionEditControlBar
+            saveText={saveText}
+            isTextEdit={isTextEdit}
+            setIsTextEdit={setIsTextEdit}
+          />
+        ) : null}
+      </div>
+    </>
   );
 };
 

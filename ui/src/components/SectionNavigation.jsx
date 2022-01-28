@@ -1,5 +1,6 @@
 import React from 'react'
 
+// Side bar article nav
 const SectionNavigation = ({ articles, handleArticleSelect }) => {
 
   return (
