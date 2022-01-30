@@ -59,27 +59,33 @@ const blankLesson = {
   sections: [],
 }
 
+const blankArticle = {
+  id: null,
+  title: null,
+  content: null,
+}
+
 const App = () => {
   const [lessons, setLessons] = useState([blankLesson]);
-  const [lessonSelect, setLessonSelect] = useState(0);
+  const [lessonSelect, setLessonSelect] = useState(1);
   const [articles, setArticles] = useState();
-  const [articleSelect, setArticleSelect] = useState(0);
+  const [articleIdSelect, setArticleIdSelect] = useState(1);
   // current edit view
   const [editView, setEditView] = useState("home");
   const [mode, setMode] = useState("editing");
 
+  async function loadLessons() {
+    try {
+      const lessonList = await getLessons();
+      setLessons(lessonList);
+      // setArticles(lessonList[lessonSelect]);
+    } catch (err) {
+      console.log("Error:", err);
+    }
+  };
 
-  console.log(lessons[lessonSelect].sections)
   useEffect(() => {
-    (async function loadLessons() {
-      try {
-        const lessonList = await getLessons();
-        setLessons(lessonList);
-        // setArticles(lessonList[lessonSelect]);
-      } catch (err) {
-        console.log("Error:", err);
-      }
-    }());
+    loadLessons()
   }, []);
 
   const handleEditViewChange = (view) => {
@@ -94,8 +100,8 @@ const App = () => {
     }
   };
 
-  const handleArticleSelect = (articleIndex) => {
-    setArticleSelect(articleIndex);
+  const handleArticleIdSelect = (articleIndex) => {
+    setArticleIdSelect(articleIndex);
   };
 
   const handleNewArticle = async (title) => {
@@ -106,7 +112,7 @@ const App = () => {
       const articles = await getLessons();
       setArticles(articles);
       setEditView("home");
-      setArticleSelect(id);
+      setArticleIdSelect(id);
     } catch (err) {
       console.log("Error", err);
     }
@@ -116,6 +122,22 @@ const App = () => {
     console.log("Edit text");
   };
   
+  const getArticleList = () => {
+    if (lessons[lessonSelect] === undefined) {
+      return [blankLesson]
+    } 
+    return lessons[lessonSelect].sections
+  }
+
+  const getArticle = () => {
+    const articleList = getArticleList()
+    if (articleList[articleIdSelect] === undefined) {
+      return [blankArticle]
+    }
+
+    return articleList.find(article => article.id === articleIdSelect)
+  }
+
   return (
     <div className="app">
       <Container id="app-container">
@@ -130,20 +152,15 @@ const App = () => {
         <Row>
           <Col xs={2} className="section-nav">
             <SectionNavigation
-              articles={lessons[lessonSelect].sections}
-              handleArticleSelect={handleArticleSelect}
+              articles={getArticleList()}
+              handleArticleSelect={handleArticleIdSelect}
             />
           </Col>
           <Col id="article-edit-display" xs={10}>
             <ArticleDisplay
               mode={mode}
               saveText={handleEditText}
-              article={
-                lessons[lessonSelect].sections[articleSelect] || {
-                  title: "",
-                  content: "",
-                }
-              }
+              article={getArticle()}
             />
             {mode === "editing" ? (
               <Editor

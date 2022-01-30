@@ -19,8 +19,6 @@ const NewArticleForm = ({ handleNewArticle, handleCancel }) => {
     });
   };
 
-  console.log(inputs)
-
   const handleSubmit = (e) => {
     e.preventDefault();
 

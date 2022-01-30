@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import SectionEditControlBar from "./SectionEditControlBar.jsx";
 import ArticleEditor from "./ArticleEditor.jsx";
 

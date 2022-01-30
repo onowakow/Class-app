@@ -4,7 +4,7 @@ type Query {
 
 type Mutation {
   addLesson(lesson: LessonInput!): Lesson
-  addArticle(article: ArticleInput!): Article
+  addArticle(article: ArticleInput!, lessonId: Int!): Article
 }
 
 type Lesson {
@@ -22,7 +22,6 @@ type Article {
 
 input LessonInput {
   lesson_title: String!
-  sections: [Article!]
 }
 
 input ArticleInput {
