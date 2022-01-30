@@ -9,13 +9,19 @@ import NavigationBar from "./components/NavigationBar.jsx";
 import Editor from "./components/Editor.jsx";
 import { Container, Row, Col } from "react-bootstrap";
 
-const getArticles = async () => {
+const getLessons = async () => {
   const query = `
-    { articleList {
-      id
-      title
-      content
-    }}
+    {
+      lessonList {
+        id,
+        lesson_title
+        sections {
+          id
+          title
+          content
+        }
+      }
+    }
   `;
   const response = await fetch("http://localhost:3000", {
     method: "POST",
@@ -24,7 +30,7 @@ const getArticles = async () => {
   });
 
   const result = await response.json();
-  return result.data.articleList;
+  return result.data.lessonList;
 };
 
 const newArticle = async (title) => {
@@ -47,17 +53,33 @@ const newArticle = async (title) => {
   return await response.json();
 };
 
+const blankLesson = {
+  id: null,
+  lesson_title: null,
+  sections: [],
+}
+
 const App = () => {
-  const [articles, setArticles] = useState([]);
+  const [lessons, setLessons] = useState([blankLesson]);
+  const [lessonSelect, setLessonSelect] = useState(0);
+  const [articles, setArticles] = useState();
   const [articleSelect, setArticleSelect] = useState(0);
   // current edit view
   const [editView, setEditView] = useState("home");
   const [mode, setMode] = useState("editing");
 
+
+  console.log(lessons[lessonSelect].sections)
   useEffect(() => {
-    getArticles()
-      .then((response) => setArticles(response))
-      .catch((error) => console.log("Error:", error));
+    (async function loadLessons() {
+      try {
+        const lessonList = await getLessons();
+        setLessons(lessonList);
+        // setArticles(lessonList[lessonSelect]);
+      } catch (err) {
+        console.log("Error:", err);
+      }
+    }());
   }, []);
 
   const handleEditViewChange = (view) => {
@@ -65,11 +87,11 @@ const App = () => {
   };
 
   const toggleModeChange = () => {
-      if (mode === "editing") {
-        setMode('viewing')
-      } else {
-        setMode('editing')
-      }
+    if (mode === "editing") {
+      setMode("viewing");
+    } else {
+      setMode("editing");
+    }
   };
 
   const handleArticleSelect = (articleIndex) => {
@@ -81,9 +103,9 @@ const App = () => {
       const newArticleResponse = await newArticle(title);
       const id = newArticleResponse.data.addArticle.id;
 
-      const articles = await getArticles();
+      const articles = await getLessons();
       setArticles(articles);
-      setEditView('home')
+      setEditView("home");
       setArticleSelect(id);
     } catch (err) {
       console.log("Error", err);
@@ -91,13 +113,9 @@ const App = () => {
   };
 
   const handleEditText = () => {
-    console.log("Edit text")
-  }
-
-  const getSelectedArticle = (id) => {
-    return articles.find((article) => article.id == id);
+    console.log("Edit text");
   };
-
+  
   return (
     <div className="app">
       <Container id="app-container">
@@ -112,16 +130,16 @@ const App = () => {
         <Row>
           <Col xs={2} className="section-nav">
             <SectionNavigation
-              articles={articles}
+              articles={lessons[lessonSelect].sections}
               handleArticleSelect={handleArticleSelect}
             />
           </Col>
-          <Col id='article-edit-display' xs={10}>
+          <Col id="article-edit-display" xs={10}>
             <ArticleDisplay
               mode={mode}
               saveText={handleEditText}
               article={
-                getSelectedArticle(articleSelect) || {
+                lessons[lessonSelect].sections[articleSelect] || {
                   title: "",
                   content: "",
                 }
@@ -129,7 +147,7 @@ const App = () => {
             />
             {mode === "editing" ? (
               <Editor
-                handleCancel={() => setEditView('home')}
+                handleCancel={() => setEditView("home")}
                 changeEditView={handleEditViewChange}
                 editView={editView}
                 handleNewArticle={handleNewArticle}

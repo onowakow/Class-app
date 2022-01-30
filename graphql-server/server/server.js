@@ -1,28 +1,30 @@
+require('dotenv').config()
 const fs = require("fs");
 const { ApolloServer } = require("apollo-server");
+const { MongoClient } = require('mongodb')
 
-const articleDB = [
-  {
-    id: 0,
-    title: "Understanding React",
-    content:
-      "Welcome to Understanding React, a guide to one of the most popular frontend frameworks. The only prerequisite for this course is a working knowledge of JavaScript, HTML, and CSS as these underlie the workings of React.",
-  },
-  {
-    id: 1,
-    title: "Getting reoriented with this project",
-    content:
-      "I am trying to remember how to query/mutate the server from the ui...",
-  },
-  {
-    id: 2,
-    title: "Cats and Dogs",
-    content: "",
-  },
-];
+const url = process.env.MONGODB_URL
+let db;
 
-const articleList = () => articleDB;
+async function lessonList() {
+  const lessons = await db.collection('lessons').find({}).toArray()
+  return lessons
+}
 
+async function connectToDb() {
+  const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true })
+  await client.connect()
+  console.log('Connected to MongoDB at', url)
+  db = client.db()
+}
+
+// INCOMPLETE
+const addLesson = (_, { lesson }) => {
+  const newLesson = lesson
+  await connectToDb()
+}
+
+// Not currently working
 const addArticle = (_, { article }) => {
   const newArticle = article;
   if (newArticle.content === undefined) {
@@ -37,10 +39,11 @@ const addArticle = (_, { article }) => {
 
 const resolvers = {
   Query: {
-    articleList,
+    lessonList,
   },
 
   Mutation: {
+    addLesson,
     addArticle,
   },
 };
@@ -50,6 +53,16 @@ const server = new ApolloServer({
   resolvers,
 });
 
-server
-  .listen({ port: 3000 })
-  .then(() => console.log("Apollo server started on port 3000"));
+(async function () {
+  try {
+    await connectToDb();
+    server
+      .listen({ port: 3000 })
+      .then(() => console.log("Apollo server started on port 3000"));
+  } catch (err) {
+    console.log("Error:", err)
+  }
+}())
+
+
+

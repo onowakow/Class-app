@@ -1,15 +1,28 @@
 type Query {
-  articleList: [Article!]!
+  lessonList: [Lesson!]!
 }
 
 type Mutation {
-  addArticle(article: ArticleInput!): Article!
+  addLesson(lesson: LessonInput!): Lesson
+  addArticle(article: ArticleInput!): Article
+}
+
+type Lesson {
+  _id: ID!
+  id: Int!
+  lesson_title: String!
+  sections: [Article!]
 }
 
 type Article {
-  id: ID!
+  id: Int
   title: String!
   content: String!
+}
+
+input LessonInput {
+  lesson_title: String!
+  sections: [Article!]
 }
 
 input ArticleInput {

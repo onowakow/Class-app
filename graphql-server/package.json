@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon -w server -e js,graphql server/server.js",
+    "db-reset": "node server/db_management/initializeMongoDB.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "kill": "fuser -n tcp -k 3000"
   },
@@ -12,8 +13,10 @@
   "license": "ISC",
   "dependencies": {
     "apollo-server": "^2.25.3",
+    "dotenv": "^14.3.2",
     "express": "^4.17.2",
-    "graphql": "^14.7.0"
+    "graphql": "^14.7.0",
+    "mongodb": "^3.7.3"
   },
   "devDependencies": {
     "nodemon": "^1.19.4"
