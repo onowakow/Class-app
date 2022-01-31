@@ -1,8 +1,7 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
 
-const NavigationBar = ({ editorIsHome, changeEditView, toggleModeChange, mode }) => {
-
+const NavigationBar = ({ editView, changeEditView, toggleModeChange, mode }) => {
   return (
     <nav id="nav-bar">
       <div>
@@ -16,7 +15,8 @@ const NavigationBar = ({ editorIsHome, changeEditView, toggleModeChange, mode })
         >
           {mode}
         </Button>
-        {mode === "editing" && editorIsHome === false ? (
+        {/*
+        {mode === "editing" && editView !== 'home' ? (
           <Button 
             className="nav-btn" 
             variant="warning"
@@ -25,6 +25,7 @@ const NavigationBar = ({ editorIsHome, changeEditView, toggleModeChange, mode })
             Editor home
           </Button>
         ) : null}
+        */}
       </div>
     </nav>
   );

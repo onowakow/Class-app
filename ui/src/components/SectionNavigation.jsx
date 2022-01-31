@@ -3,11 +3,11 @@ import React from 'react'
 // Side bar article nav
 const SectionNavigation = ({ articles, handleArticleSelect }) => {
   return (
-    articles.map((article, i)=> (
+    articles.map((article)=> (
       <button 
-        key={i} 
+        key={article.id} 
         className='section-nav-button'
-        onClick={() => handleArticleSelect(i)}
+        onClick={() => handleArticleSelect(article.id)}
       >
         <b>{article.title}</b>
       </button>

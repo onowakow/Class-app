@@ -15,7 +15,7 @@ const ArticleDisplay = ({ saveText, article, mode }) => {
       <div className="bin article">
         <article>
           <h2 className="article-title">{title}</h2>
-          {isTextEdit ? <ArticleEditor content={content} /> : <>{ content }</>}
+          {isTextEdit ? <ArticleEditor content={content} /> : <>{content}</>}
         </article>
         {mode === "editing" ? (
           <SectionEditControlBar
