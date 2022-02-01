@@ -5,8 +5,16 @@ import SectionNavigation from "./SectionNavigation.jsx";
 import ArticleDisplay from "./ArticleDisplay.jsx";
 import Editor from "./Editor.jsx";
 
-const LessonDisplay = ({ lesson, mode, editView, changeEditView }) => {
-  const [articleIdSelect, setArticleIdSelect] = useState(1);
+const LessonDisplay = ({
+  handleEditText,
+  lesson,
+  mode,
+  editView,
+  changeEditView,
+  handleNewArticle,
+  articleIdSelect,
+  handleArticleIdSelect,
+}) => {
   // loading message
   if (lesson === undefined) {
     return (
@@ -19,31 +27,19 @@ const LessonDisplay = ({ lesson, mode, editView, changeEditView }) => {
     return lesson.sections;
   };
 
-  const handleArticleIdSelect = (id) => {
-    setArticleIdSelect(id);
-  };
-
   const getArticle = (lesson, articleId) => {
     const articles = getArticleList(lesson);
     const article = articles.find((article) => article.id === articleId);
     return article;
   };
 
-  // PLACEHOLDERS
-  const handleEditText = () => {
-    console.log("placeholder for text edit");
-  };
-
   const handleEditViewChange = () => {
     console.log("placeholder for handleEditViewChange");
   };
 
-  const handleNewArticle = () => {
-    console.log("ph for new art");
-  };
   return (
     <>
-      <h2 className='lesson-title'>{lesson.lesson_title}</h2>
+      <h2 className="lesson-title">{lesson.lesson_title}</h2>
       <Col xs={2} className="section-nav">
         <SectionNavigation
           articles={getArticleList(lesson)}

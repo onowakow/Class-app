@@ -1,20 +1,10 @@
 import React from "react";
-import { useState, useEffect } from 'react'
 
-const ArticleEditor = ({ content }) => {
-  const [text, setText] = useState('');
-
-  useEffect(() => {
-    setText(content)
-  }, [content])
-
-  const handleTextChange = (event) => {
-    setText(event.target.value)
-  }
+const ArticleEditor = ({ handleContentChange, content }) => {
   return (
     <textarea
-      value={text}
-      onChange={handleTextChange}
+      value={content}
+      onChange={handleContentChange}
       className="textarea-add-text"
     ></textarea>
   );

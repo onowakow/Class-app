@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
 
-const SectionEditControlBar = ({ saveText, changeEditView, editView}) => {
+const SectionEditControlBar = ({ changeEditView, saveText, handleCancel, editView}) => {
   return (
     <nav id="section-edit-control-nav">
       {editView === 'article-text' ? (
@@ -10,7 +10,7 @@ const SectionEditControlBar = ({ saveText, changeEditView, editView}) => {
             Save text
           </Button>
           <Button
-            onClick={()=>changeEditView('home')}
+            onClick={handleCancel}
             variant="warning"
             className="nav-btn"
           >

@@ -12,14 +12,14 @@ import NavigationBar from "./components/NavigationBar.jsx";
 import LessonDisplay from './components/LessonDisplay.jsx'
 import getLessons from './utilities/getLessons.js'
 import newArticle from "./utilities/newArticle.js";
+import editArticle from './utilities/editArticle.js'
 
 const App = () => {
   const [lessons, setLessons] = useState([]);
   const [lessonIdSelect, setLessonIdSelect] = useState(1);
   const [editView, setEditView] = useState("home");
   const [mode, setMode] = useState("editing");
-
-  console.log(editView)
+  const [articleIdSelect, setArticleIdSelect] = useState(1)
 
   async function loadLessons() {
     try {
@@ -45,17 +45,20 @@ const App = () => {
       setMode("editing");
     }
   };
-  
+
   const handleNewArticle = async (title) => {
     try {
-      const newArticleResponse = await newArticle(title, lessonIdSelect);
-      const id = newArticleResponse.data.addArticle.id;
+      const response = await newArticle(title, lessonIdSelect);
+      const articleId = response.data.addArticle.id
+      await loadLessons()
+      setArticleIdSelect(articleId)
       setEditView("home");
     } catch (err) {
       console.log("Error", err);
     }
   };
 
+  // editArticle needs article, lessonId, and articleId. REMEMBER when plugging it in.
   const handleEditText = () => {
     console.log("Edit text");
   };
@@ -78,7 +81,11 @@ const App = () => {
           />
         </Row>
         <Row>
-          <LessonDisplay 
+          <LessonDisplay
+            handleEditText={handleEditText}
+            handleArticleIdSelect={setArticleIdSelect}
+            articleIdSelect={articleIdSelect}
+            handleNewArticle={handleNewArticle}
             lesson={getLesson()} 
             mode={mode}
             editView={editView}
