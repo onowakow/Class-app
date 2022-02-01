@@ -5,6 +5,7 @@ type Query {
 type Mutation {
   addLesson(lesson: LessonInput!): Lesson
   addArticle(article: ArticleInput!, lessonId: Int!): Article
+  modifyArticle(article: ArticleInput!, lessonId: Int!, articleId: Int!): Article
 }
 
 type Lesson {
@@ -15,6 +16,7 @@ type Lesson {
 }
 
 type Article {
+  "id will also stand in as the article order."
   id: Int
   title: String!
   content: String!
@@ -25,6 +27,6 @@ input LessonInput {
 }
 
 input ArticleInput {
-  title: String!
+  title: String
   content: String
 }

@@ -5,8 +5,7 @@ import ArticleEditor from "./ArticleEditor.jsx";
 
 // mode can be 'editing' or 'viewing.'
 
-const ArticleDisplay = ({ saveText, article, mode }) => {
-  const [isTextEdit, setIsTextEdit] = useState(false);
+const ArticleDisplay = ({ editView, changeEditView, saveText, article, mode }) => {
   const content = article.content;
   const title = article.title;
 
@@ -15,13 +14,13 @@ const ArticleDisplay = ({ saveText, article, mode }) => {
       <div className="bin article">
         <article>
           <h2 className="article-title">{title}</h2>
-          {isTextEdit ? <ArticleEditor content={content} /> : <>{content}</>}
+          {editView === 'article-text' ? <ArticleEditor content={content} /> : <>{content}</>}
         </article>
         {mode === "editing" ? (
           <SectionEditControlBar
             saveText={saveText}
-            isTextEdit={isTextEdit}
-            setIsTextEdit={setIsTextEdit}
+            editView={editView}
+            changeEditView={changeEditView}
           />
         ) : null}
       </div>

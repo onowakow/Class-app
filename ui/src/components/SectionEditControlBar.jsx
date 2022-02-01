@@ -1,16 +1,16 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
 
-const SectionEditControlBar = ({ saveText, enableTextEdit, isTextEdit, setIsTextEdit }) => {
+const SectionEditControlBar = ({ saveText, changeEditView, editView}) => {
   return (
     <nav id="section-edit-control-nav">
-      {isTextEdit ? (
+      {editView === 'article-text' ? (
         <>
           <Button onClick={saveText} variant="success" className="nav-btn">
             Save text
           </Button>
           <Button
-            onClick={()=>setIsTextEdit(false)}
+            onClick={()=>changeEditView('home')}
             variant="warning"
             className="nav-btn"
           >
@@ -18,7 +18,7 @@ const SectionEditControlBar = ({ saveText, enableTextEdit, isTextEdit, setIsText
           </Button>
         </>
       ) : (
-        <Button onClick={()=>setIsTextEdit(true)} variant="primary" className="nav-btn">
+        <Button onClick={()=>changeEditView('article-text')} variant="primary" className="nav-btn">
           Edit text
         </Button>
       )}

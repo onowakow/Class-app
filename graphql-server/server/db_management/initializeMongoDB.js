@@ -34,6 +34,18 @@ async function initializeMongoDB() {
           content:
             "React splits the DOM into components and allows one to conditionally render and update components as the user interacts.",
         },
+        {
+          id: 3,
+          title: "State",
+          content:
+            "State is what makes React components dynamic.",
+        },
+        {
+          id: 4,
+          title: "Hooks",
+          content:
+            "With hooks, functional components can also have state.",
+        },
       ],
     };
 

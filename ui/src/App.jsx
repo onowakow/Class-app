@@ -45,11 +45,7 @@ const App = () => {
       setMode("editing");
     }
   };
-
-  const handleArticleIdSelect = (articleIndex) => {
-    setArticleIdSelect(articleIndex);
-  };
-
+  
   const handleNewArticle = async (title) => {
     try {
       const newArticleResponse = await newArticle(title, lessonIdSelect);
