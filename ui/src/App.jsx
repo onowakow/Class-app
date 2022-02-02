@@ -59,8 +59,15 @@ const App = () => {
   };
 
   // editArticle needs article, lessonId, and articleId. REMEMBER when plugging it in.
-  const handleEditText = () => {
-    console.log("Edit text");
+  const handleEditText = async (article, lessonId) => {
+    try {
+      await editArticle(article, lessonId)
+      await loadLessons()
+      setEditView('home')
+    } catch (error) {
+      console.log('Failed to update article, Error:', error)
+    } finally {
+    }
   };
 
   const getLesson = () => {

@@ -3,7 +3,7 @@ import { useState } from "react";
 import Col from "react-bootstrap/Col";
 import SectionNavigation from "./SectionNavigation.jsx";
 import ArticleDisplay from "./ArticleDisplay.jsx";
-import Editor from "./Editor.jsx";
+import NewArticleEditor from "./NewArticleEditor.jsx";
 
 const LessonDisplay = ({
   handleEditText,
@@ -15,6 +15,8 @@ const LessonDisplay = ({
   articleIdSelect,
   handleArticleIdSelect,
 }) => {
+  const [isArticleEdit, setIsArticleEdit] = useState(false)
+
   // loading message
   if (lesson === undefined) {
     return (
@@ -33,31 +35,27 @@ const LessonDisplay = ({
     return article;
   };
 
-  const handleEditViewChange = () => {
-    console.log("placeholder for handleEditViewChange");
-  };
-
   return (
     <>
       <h2 className="lesson-title">{lesson.lesson_title}</h2>
       <Col xs={2} className="section-nav">
         <SectionNavigation
+          isEdit={isArticleEdit}
           articles={getArticleList(lesson)}
           handleArticleSelect={handleArticleIdSelect}
         />
       </Col>
       <Col id="article-edit-display" xs={10}>
         <ArticleDisplay
-          editView={editView}
-          changeEditView={changeEditView}
+          isEdit={isArticleEdit}
+          setIsEdit={setIsArticleEdit}
           mode={mode}
+          lessonId={lesson.id}
           saveText={handleEditText}
           article={getArticle(lesson, articleIdSelect)}
         />
         {mode === "editing" ? (
-          <Editor
-            changeEditView={changeEditView}
-            editView={editView}
+          <NewArticleEditor
             handleNewArticle={handleNewArticle}
           />
         ) : null}

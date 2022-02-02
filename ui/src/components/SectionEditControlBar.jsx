@@ -1,29 +1,27 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
+import { useState, useEffect } from "react";
 
-const SectionEditControlBar = ({ changeEditView, saveText, handleCancel, editView}) => {
+const SectionEditControlBar = ({ saveText, handleCancel, isEdit }) => {
+  const [saveBtnText, setSaveBtnText] = useState("Save text");
+
+  // Resets the save button text when editView changes.
+  useEffect(() => {
+    setSaveBtnText("Save text");
+  }, [isEdit]);
+
+  const handleClick = async () => {
+    setSaveBtnText("Saving...");
+    saveText();
+  };
+
   return (
-    <nav id="section-edit-control-nav">
-      {editView === 'article-text' ? (
-        <>
-          <Button onClick={saveText} variant="success" className="nav-btn">
-            Save text
-          </Button>
-          <Button
-            onClick={handleCancel}
-            variant="warning"
-            className="nav-btn"
-          >
-            Cancel
-          </Button>
-        </>
-      ) : (
-        <Button onClick={()=>changeEditView('article-text')} variant="primary" className="nav-btn">
-          Edit text
-        </Button>
-      )}
-      <Button variant="secondary" className="nav-btn">
-        Edit title or type
+    <nav>
+      <Button onClick={handleClick} variant="success" className="nav-btn">
+        {saveBtnText}
+      </Button>
+      <Button onClick={handleCancel} variant="warning" className="nav-btn">
+        Cancel edit
       </Button>
     </nav>
   );
