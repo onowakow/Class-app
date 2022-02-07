@@ -21,6 +21,7 @@ async function initializeMongoDB() {
     const newLesson = {
       id: 1,
       lesson_title: "Understanding React",
+      lesson_description: "A beginner's guide to a popular framework",
       sections: [
         {
           id: 1,

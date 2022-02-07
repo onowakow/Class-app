@@ -25,6 +25,8 @@ const SectionNavigation = ({ isEdit, articles, handleArticleSelect }) => {
   const handleModalClose = () => setShowModal(false)
   const handleModalOpen = () => setShowModal(true)
 
+  if (!articles) return <>No articles yet.</>
+
   return (
     <>
       <WarningModal

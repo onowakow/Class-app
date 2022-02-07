@@ -12,6 +12,7 @@ type Lesson {
   _id: ID!
   id: Int!
   lesson_title: String!
+  lesson_description: String!
   sections: [Article!]
 }
 
@@ -24,6 +25,7 @@ type Article {
 
 input LessonInput {
   lesson_title: String!
+  lesson_description: String!
 }
 
 input ArticleInput {

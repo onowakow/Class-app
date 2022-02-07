@@ -98,11 +98,12 @@ h3 {
   justify-content: center;
 }
 
-#new-section-btn {
+.new-section-btn {
   display: block;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 1em
+  margin-top: 1em;
+  max-width: fit-content;
 }
 
 .textarea-add-text {
@@ -113,4 +114,19 @@ h3 {
 
 .article-content {
   white-space: pre-wrap
+}
+
+.lesson-card {
+  margin: .5em;
+  min-height: 150px;
+}
+
+.lesson-card:hover {
+  box-shadow: 5px 5px 1px fuchsia;
+  background-color: #faeaea;
+}
+
+#lessons {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
 }

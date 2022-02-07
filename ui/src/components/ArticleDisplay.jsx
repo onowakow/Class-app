@@ -15,6 +15,7 @@ const nullAlert = {
 };
 
 const ArticleDisplay = ({
+  childComp,
   isEdit,
   setIsEdit,
   saveText,
@@ -22,21 +23,27 @@ const ArticleDisplay = ({
   mode,
   lessonId,
 }) => {
+  const handleChildClick = () => {
+    console.log('Handling click')
+  }
+
+  if (!article) return <>No articles yet!{childComp}</>
+
   const title = article.title;
   const content = article.content;
 
   const [editedContent, setEditedContent] = useState(content);
   const [editedTitle, setEditedTitle] = useState(title);
   const [alert, setAlert] = useState(nullAlert);
-  const [showWarningModal, setShowWarningModal] = useState(false)
+  const [showWarningModal, setShowWarningModal] = useState(false);
 
-  const handleModalClose = () => setShowWarningModal(false)
+  const handleModalClose = () => setShowWarningModal(false);
 
   const handleModalContinue = () => {
     setIsEdit(false);
     setEditedContent(content);
     setEditedTitle(title);
-  }
+  };
 
   // update edit content/title when changing to different article
   useEffect(() => {
@@ -45,7 +52,7 @@ const ArticleDisplay = ({
   }, [content, title]);
 
   const handleCancel = () => {
-    setShowWarningModal(true)
+    setShowWarningModal(true);
   };
 
   const handleContentChange = (e) => {
@@ -63,6 +70,7 @@ const ArticleDisplay = ({
     await saveText(updatedArticle, lessonId);
     setIsEdit(false);
   };
+
 
   if (!isEdit) {
     return (
@@ -102,7 +110,11 @@ const ArticleDisplay = ({
         <div className="bin article">
           <article>
             <h2 className="article-title">
-              <input onChange={handleTitleChange} value={editedTitle} />
+              <input
+                alt="article title"
+                onChange={handleTitleChange}
+                value={editedTitle}
+              />
             </h2>
             <ArticleEditor
               handleContentChange={handleContentChange}

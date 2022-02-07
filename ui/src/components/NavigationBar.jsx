@@ -1,31 +1,27 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
 
-const NavigationBar = ({ editView, changeEditView, toggleModeChange, mode }) => {
+const NavigationBar = ({ handleViewLessons, view, toggleModeChange, mode }) => {
   return (
     <nav id="nav-bar">
       <div>
-        <h1><u>student-teacher</u></h1>
+        <h1>
+          <u>student-teacher</u>
+        </h1>
       </div>
       <div>
-        <Button
-          className="nav-btn"
-          onClick={toggleModeChange}
-          variant="dark"
-        >
-          {mode}
-        </Button>
-        {/*
-        {mode === "editing" && editView !== 'home' ? (
-          <Button 
-            className="nav-btn" 
-            variant="warning"
-            onClick={() => changeEditView('home')}
+        {view !== "lessons" ? (
+          <Button
+            className="nav-btn"
+            onClick={handleViewLessons}
+            variant="primary"
           >
-            Editor home
+            View all lessons
           </Button>
         ) : null}
-        */}
+        <Button className="nav-btn" onClick={toggleModeChange} variant="dark">
+          {mode}
+        </Button>
       </div>
     </nav>
   );

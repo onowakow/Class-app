@@ -5,12 +5,16 @@ import SectionNavigation from "./SectionNavigation.jsx";
 import ArticleDisplay from "./ArticleDisplay.jsx";
 import NewArticleEditor from "./NewArticleEditor.jsx";
 
+const ChildComp = () => {
+  return(
+    <button onClick={handleChildClick}>Click me!</button>
+  )
+}
+
 const LessonDisplay = ({
   handleEditText,
   lesson,
   mode,
-  editView,
-  changeEditView,
   handleNewArticle,
   articleIdSelect,
   handleArticleIdSelect,
@@ -35,6 +39,7 @@ const LessonDisplay = ({
     return article;
   };
 
+  console.log(lesson.sections.length)
   return (
     <>
       <h2 className="lesson-title">{lesson.lesson_title}</h2>
@@ -47,6 +52,7 @@ const LessonDisplay = ({
       </Col>
       <Col id="article-edit-display" xs={10}>
         <ArticleDisplay
+          childComp={<ChildComp />}
           isEdit={isArticleEdit}
           setIsEdit={setIsArticleEdit}
           mode={mode}

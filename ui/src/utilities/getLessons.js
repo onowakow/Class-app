@@ -2,8 +2,9 @@ const getLessons = async () => {
   const query = `
     {
       lessonList {
-        id,
+        id
         lesson_title
+        lesson_description
         sections {
           id
           title
