@@ -1,7 +1,14 @@
 import React from "react";
 import Card from "react-bootstrap/Card";
+import Form from "react-bootstrap/Form";
 import { useState } from "react";
-import NewArticleEditor from "./NewArticleEditor.jsx";
+import ButtonRenderer from "./ButtonRenderer.jsx";
+import FormWrapper from "./FormWrapper.jsx";
+
+const initialInputs = {
+  title: "",
+  description: "",
+};
 
 const AllLessonsDisplay = ({
   setView,
@@ -11,11 +18,47 @@ const AllLessonsDisplay = ({
   handleNewLesson,
 }) => {
   if (!lessons) return <p>Loading lessons...</p>;
+  const [isEditing, setIsEditing] = useState(false);
+  const [inputs, setInputs] = useState(initialInputs);
+  const [currentlySubmitting, setCurrentlySubmitting] = useState(false);
 
   const handleLessonSelect = (id) => {
-    setLessonIdSelect(id)
-    setView('lesson')
-  }
+    setLessonIdSelect(id);
+    setView("lesson");
+  };
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setInputs({
+      ...inputs,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setCurrentlySubmitting(true);
+
+    if (inputs.title === "") {
+      console.log("Warning: No blank titles.");
+      return;
+    }
+
+    await handleNewLesson(inputs);
+    setCurrentlySubmitting(false);
+    handleEndEdit();
+    setInputs(initialInputs);
+  };
+
+  const handleStartEdit = () => {
+    setIsEditing(true);
+  };
+
+  const handleEndEdit = () => {
+    setIsEditing(false);
+  };
+
+  if (!lessons) return <p>Loading...</p>;
 
   return (
     <>
@@ -37,7 +80,46 @@ const AllLessonsDisplay = ({
         ))}
       </div>
       {mode === "editing" ? (
-        <NewArticleEditor handleNewLesson={handleNewLesson} />
+        <ButtonRenderer
+          buttonName="New lesson"
+          isContentActive={isEditing}
+          activateContent={handleStartEdit}
+        >
+          <FormWrapper
+            currentlySubmitting={currentlySubmitting}
+            formType="lesson"
+            formDescription="Give your lesson a title and a short description. After creating a lesson, you will be able to edit it."
+            handleSubmit={handleSubmit}
+            handleEndEdit={handleEndEdit}
+          >
+            <>
+              <Form.Group>
+                <Form.Label>Title</Form.Label>
+                <Form.Control
+                  className="form-control"
+                  type="text"
+                  alt="title"
+                  placeholder="Enter title"
+                  value={inputs.title || ""}
+                  name="title"
+                  onChange={handleInputChange}
+                />
+              </Form.Group>
+              <Form.Group>
+                <Form.Label>Description</Form.Label>
+                <Form.Control
+                  className="form-control"
+                  type="text"
+                  alt="description"
+                  placeholder="Enter description"
+                  value={inputs.description || ""}
+                  name="description"
+                  onChange={handleInputChange}
+                />
+              </Form.Group>
+            </>
+          </FormWrapper>
+        </ButtonRenderer>
       ) : null}
     </>
   );
