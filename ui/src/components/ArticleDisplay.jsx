@@ -23,24 +23,22 @@ const ArticleDisplay = ({
   mode,
   lessonId,
 }) => {
-  const handleChildClick = () => {
-    console.log('Handling click')
-  }
-
   if (!article) return <>No articles yet!{childComp}</>
 
+  
   const title = article.title;
   const content = article.content;
-
+  
   const [editedContent, setEditedContent] = useState(content);
   const [editedTitle, setEditedTitle] = useState(title);
   const [alert, setAlert] = useState(nullAlert);
   const [showWarningModal, setShowWarningModal] = useState(false);
-
+  
   const handleModalClose = () => setShowWarningModal(false);
 
   const handleModalContinue = () => {
     setIsEdit(false);
+    setShowWarningModal(false)
     setEditedContent(content);
     setEditedTitle(title);
   };

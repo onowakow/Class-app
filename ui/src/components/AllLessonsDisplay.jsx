@@ -1,22 +1,16 @@
-import React from "react";
-import Card from "react-bootstrap/Card";
-import Form from "react-bootstrap/Form";
-import { useState } from "react";
-import ButtonRenderer from "./ButtonRenderer.jsx";
-import FormWrapper from "./FormWrapper.jsx";
+import React from 'react';
+import Card from 'react-bootstrap/Card';
+import Form from 'react-bootstrap/Form';
+import { useState } from 'react';
+import ButtonRenderer from './ButtonRenderer.jsx';
+import FormWrapper from './FormWrapper.jsx';
 
 const initialInputs = {
-  title: "",
-  description: "",
+  title: '',
+  description: ''
 };
 
-const AllLessonsDisplay = ({
-  setView,
-  setLessonIdSelect,
-  lessons,
-  mode,
-  handleNewLesson,
-}) => {
+const AllLessonsDisplay = ({ setView, setLessonIdSelect, lessons, mode, handleNewLesson }) => {
   if (!lessons) return <p>Loading lessons...</p>;
   const [isEditing, setIsEditing] = useState(false);
   const [inputs, setInputs] = useState(initialInputs);
@@ -24,14 +18,14 @@ const AllLessonsDisplay = ({
 
   const handleLessonSelect = (id) => {
     setLessonIdSelect(id);
-    setView("lesson");
+    setView('lesson');
   };
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setInputs({
       ...inputs,
-      [name]: value,
+      [name]: value
     });
   };
 
@@ -39,8 +33,8 @@ const AllLessonsDisplay = ({
     e.preventDefault();
     setCurrentlySubmitting(true);
 
-    if (inputs.title === "") {
-      console.log("Warning: No blank titles.");
+    if (inputs.title === '') {
+      console.log('Warning: No blank titles.');
       return;
     }
 
@@ -79,7 +73,7 @@ const AllLessonsDisplay = ({
           </Card>
         ))}
       </div>
-      {mode === "editing" ? (
+      {mode === 'editing' ? (
         <ButtonRenderer
           buttonName="New lesson"
           isContentActive={isEditing}
@@ -100,7 +94,7 @@ const AllLessonsDisplay = ({
                   type="text"
                   alt="title"
                   placeholder="Enter title"
-                  value={inputs.title || ""}
+                  value={inputs.title || ''}
                   name="title"
                   onChange={handleInputChange}
                 />
@@ -112,7 +106,7 @@ const AllLessonsDisplay = ({
                   type="text"
                   alt="description"
                   placeholder="Enter description"
-                  value={inputs.description || ""}
+                  value={inputs.description || ''}
                   name="description"
                   onChange={handleInputChange}
                 />
