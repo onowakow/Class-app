@@ -1,27 +1,27 @@
 // Browser support imports
-import "babel-polyfill";
-import "whatwg-fetch";
+import 'babel-polyfill';
+import 'whatwg-fetch';
 
 // React and bootstrap imports
-import React from "react";
-import { useState, useEffect } from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import React from 'react';
+import { useState, useEffect } from 'react';
+import { Container, Row } from 'react-bootstrap';
 
 // Component imports
-import NavigationBar from "./components/NavigationBar.jsx";
-import LessonDisplay from "./components/LessonDisplay.jsx";
-import getLessons from "./utilities/getLessons.js";
-import newArticle from "./utilities/newArticle.js";
-import newLesson from "./utilities/newLesson.js";
-import editArticle from "./utilities/editArticle.js";
-import AllLessonsDisplay from "./components/AllLessonsDisplay.jsx";
+import NavigationBar from './components/NavigationBar.jsx';
+import LessonDisplay from './components/LessonDisplay.jsx';
+import getLessons from './utilities/getLessons.js';
+import newArticle from './utilities/newArticle.js';
+import newLesson from './utilities/newLesson.js';
+import editArticle from './utilities/editArticle.js';
+import AllLessonsDisplay from './components/AllLessonsDisplay.jsx';
 
 const App = () => {
   const [lessons, setLessons] = useState([]);
   const [lessonIdSelect, setLessonIdSelect] = useState(1);
-  const [view, setView] = useState("lessons");
-  const [editView, setEditView] = useState("home");
-  const [mode, setMode] = useState("editing");
+  const [view, setView] = useState('lessons');
+  const [editView, setEditView] = useState('home');
+  const [mode, setMode] = useState('editing');
   const [articleIdSelect, setArticleIdSelect] = useState(1);
 
   async function loadLessons() {
@@ -29,7 +29,7 @@ const App = () => {
       const lessonList = await getLessons();
       setLessons(lessonList);
     } catch (err) {
-      console.log("Error:", err);
+      console.log('Error:', err);
     }
   }
 
@@ -37,15 +37,11 @@ const App = () => {
     loadLessons();
   }, []);
 
-  const handleEditViewChange = (view) => {
-    setEditView(view);
-  };
-
   const toggleModeChange = () => {
-    if (mode === "editing") {
-      setMode("viewing");
+    if (mode === 'editing') {
+      setMode('viewing');
     } else {
-      setMode("editing");
+      setMode('editing');
     }
   };
 
@@ -55,9 +51,9 @@ const App = () => {
       const articleId = response.data.addArticle.id;
       await loadLessons();
       setArticleIdSelect(articleId);
-      setEditView("home");
+      setEditView('home');
     } catch (err) {
-      console.log("Error", err);
+      console.log('Error', err);
     }
   };
 
@@ -65,7 +61,7 @@ const App = () => {
     console.log(lessonInputs);
     try {
       await newLesson(lessonInputs.title, lessonInputs.description);
-      await loadLessons()
+      await loadLessons();
     } catch (error) {
       console.log(error);
     }
@@ -76,10 +72,9 @@ const App = () => {
     try {
       await editArticle(article, lessonId);
       await loadLessons();
-      setEditView("home");
+      setEditView('home');
     } catch (error) {
-      console.log("Failed to update article, Error:", error);
-    } finally {
+      console.log('Failed to update article, Error:', error);
     }
   };
 
@@ -89,7 +84,7 @@ const App = () => {
   };
 
   const handleViewLessons = () => {
-    setView("lessons");
+    setView('lessons');
   };
 
   return (
@@ -104,7 +99,7 @@ const App = () => {
           />
         </Row>
         <Row>
-          {view === "lessons" ? (
+          {view === 'lessons' ? (
             <AllLessonsDisplay
               lessons={lessons}
               mode={mode}
@@ -112,7 +107,7 @@ const App = () => {
               setLessonIdSelect={setLessonIdSelect}
               setView={setView}
             />
-          ) : view === "lesson" ? (
+          ) : view === 'lesson' ? (
             <LessonDisplay
               handleEditText={handleEditText}
               handleArticleIdSelect={setArticleIdSelect}
@@ -123,7 +118,9 @@ const App = () => {
               editView={editView}
               changeEditView={setEditView}
             />
-          ) : (error)}
+          ) : (
+            console.log('invalid view. Code-side error')
+          )}
         </Row>
       </Container>
     </div>

@@ -1,5 +1,5 @@
-import React from "react";
-import Button from "react-bootstrap/Button";
+import React from 'react';
+import Button from 'react-bootstrap/Button';
 
 const NavigationBar = ({ handleViewLessons, view, toggleModeChange, mode }) => {
   return (
@@ -10,12 +10,8 @@ const NavigationBar = ({ handleViewLessons, view, toggleModeChange, mode }) => {
         </h1>
       </div>
       <div>
-        {view !== "lessons" ? (
-          <Button
-            className="nav-btn"
-            onClick={handleViewLessons}
-            variant="primary"
-          >
+        {view !== 'lessons' ? (
+          <Button className="nav-btn" onClick={handleViewLessons} variant="primary">
             View all lessons
           </Button>
         ) : null}

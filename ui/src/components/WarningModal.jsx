@@ -1,11 +1,10 @@
-import React from "react";
-import { useState } from "react";
-import Modal from "react-bootstrap/Modal";
-import Button from "react-bootstrap/Button";
+import React from 'react';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
 
-const WarningModal = ({ 
-  show, 
-  handleClose, 
+const WarningModal = ({
+  show,
+  handleClose,
   handleContinue,
   title,
   body,
@@ -19,9 +18,7 @@ const WarningModal = ({
           <Modal.Title>{title}</Modal.Title>
         </Modal.Header>
 
-        <Modal.Body>
-          {body}
-        </Modal.Body>
+        <Modal.Body>{body}</Modal.Body>
         <Modal.Footer>
           <Button variant="primary" onClick={handleClose}>
             {closeBtnText}

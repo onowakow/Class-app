@@ -1,17 +1,17 @@
-import React from "react";
-import Button from "react-bootstrap/Button";
-import { useState, useEffect } from "react";
+import React from 'react';
+import Button from 'react-bootstrap/Button';
+import { useState, useEffect } from 'react';
 
 const SectionEditControlBar = ({ saveText, handleCancel, isEdit }) => {
-  const [saveBtnText, setSaveBtnText] = useState("Save text");
+  const [saveBtnText, setSaveBtnText] = useState('Save text');
 
   // Resets the save button text when editView changes.
   useEffect(() => {
-    setSaveBtnText("Save text");
+    setSaveBtnText('Save text');
   }, [isEdit]);
 
   const handleClick = async () => {
-    setSaveBtnText("Saving...");
+    setSaveBtnText('Saving...');
     saveText();
   };
 

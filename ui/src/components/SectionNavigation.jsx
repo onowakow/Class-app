@@ -1,31 +1,30 @@
-import React from "react";
-import WarningModal from "./WarningModal.jsx";
-import { useState } from "react";
+import React from 'react';
+import WarningModal from './WarningModal.jsx';
+import { useState } from 'react';
 
 // Side bar article nav
 const SectionNavigation = ({ isEdit, articles, handleArticleSelect }) => {
   const [showModal, setShowModal] = useState(false);
   // State for modal
-  const [articleIdHold, setArticleIdHold] = useState(null)
+  const [articleIdHold, setArticleIdHold] = useState(null);
 
   const handleNavClick = async (id) => {
     if (isEdit) {
-      setArticleIdHold(id)
-      setShowModal(true)
-      return
+      setArticleIdHold(id);
+      setShowModal(true);
+      return;
     }
-    handleArticleSelect(id)
-  }
+    handleArticleSelect(id);
+  };
 
   const handleArticleNavigation = () => {
-    setShowModal(false)
-    handleArticleSelect(articleIdHold)
-  }
+    setShowModal(false);
+    handleArticleSelect(articleIdHold);
+  };
 
-  const handleModalClose = () => setShowModal(false)
-  const handleModalOpen = () => setShowModal(true)
+  const handleModalClose = () => setShowModal(false);
 
-  if (!articles) return <>No articles yet.</>
+  if (!articles) return <>No articles yet.</>;
 
   return (
     <>

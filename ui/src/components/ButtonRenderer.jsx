@@ -1,5 +1,5 @@
-import React from "react";
-import Button from "react-bootstrap/Button";
+import React from 'react';
+import Button from 'react-bootstrap/Button';
 
 // Renders a button. On click, will render children.
 const ButtonRenderer = ({ buttonName, children, isContentActive, activateContent }) => {
@@ -7,7 +7,9 @@ const ButtonRenderer = ({ buttonName, children, isContentActive, activateContent
     <Button className="new-section-btn" onClick={activateContent}>
       {buttonName}
     </Button>
-  ) : isContentActive ? (children) : null;
+  ) : isContentActive ? (
+    children
+  ) : null;
 };
 
 export default ButtonRenderer;

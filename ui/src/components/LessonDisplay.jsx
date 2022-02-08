@@ -1,14 +1,14 @@
-import React from "react";
-import { useState } from "react";
-import Col from "react-bootstrap/Col";
-import SectionNavigation from "./SectionNavigation.jsx";
-import ArticleDisplay from "./ArticleDisplay.jsx";
-import ButtonRenderer from "./ButtonRenderer.jsx";
-import FormWrapper from "./FormWrapper.jsx";
-import Form from 'react-bootstrap/Form'
+import React from 'react';
+import { useState } from 'react';
+import Col from 'react-bootstrap/Col';
+import SectionNavigation from './SectionNavigation.jsx';
+import ArticleDisplay from './ArticleDisplay.jsx';
+import ButtonRenderer from './ButtonRenderer.jsx';
+import FormWrapper from './FormWrapper.jsx';
+import Form from 'react-bootstrap/Form';
 
 const initialInputs = {
-  title: "",
+  title: ''
 };
 
 const LessonDisplay = ({
@@ -17,7 +17,7 @@ const LessonDisplay = ({
   mode,
   articleIdSelect,
   handleNewArticle,
-  handleArticleIdSelect,
+  handleArticleIdSelect
 }) => {
   const [isArticleEdit, setIsArticleEdit] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -43,17 +43,11 @@ const LessonDisplay = ({
   };
 
   // Form handling
-
-  const handleLessonSelect = (id) => {
-    setLessonIdSelect(id);
-    setView("lesson");
-  };
-
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setInputs({
       ...inputs,
-      [name]: value,
+      [name]: value
     });
   };
 
@@ -61,8 +55,8 @@ const LessonDisplay = ({
     e.preventDefault();
     setCurrentlySubmitting(true);
 
-    if (inputs.title === "") {
-      console.log("Warning: No blank titles.");
+    if (inputs.title === '') {
+      console.log('Warning: No blank titles.');
       return;
     }
 
@@ -99,7 +93,7 @@ const LessonDisplay = ({
           saveText={handleEditText}
           article={getArticle(lesson, articleIdSelect)}
         />
-        {mode === "editing" ? (
+        {mode === 'editing' ? (
           <ButtonRenderer
             buttonName="New article"
             isContentActive={isEditing}
@@ -120,7 +114,7 @@ const LessonDisplay = ({
                     type="text"
                     alt="title"
                     placeholder="Enter title"
-                    value={inputs.title || ""}
+                    value={inputs.title || ''}
                     name="title"
                     onChange={handleInputChange}
                   />
