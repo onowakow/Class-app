@@ -17,7 +17,8 @@ const LessonDisplay = ({
   mode,
   articleIdSelect,
   handleNewArticle,
-  handleArticleIdSelect
+  handleArticleIdSelect,
+  handleDeleteArticle
 }) => {
   const [isArticleEdit, setIsArticleEdit] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -79,6 +80,7 @@ const LessonDisplay = ({
       <h2 className="lesson-title">{lesson.lesson_title}</h2>
       <Col xs={2} className="section-nav">
         <SectionNavigation
+          articleIdSelect={articleIdSelect}
           isEdit={isArticleEdit}
           articles={getArticleList(lesson)}
           handleArticleSelect={handleArticleIdSelect}
@@ -86,6 +88,7 @@ const LessonDisplay = ({
       </Col>
       <Col id="article-edit-display" xs={10}>
         <ArticleDisplay
+          handleDeleteArticle={handleDeleteArticle}
           isEdit={isArticleEdit}
           setIsEdit={setIsArticleEdit}
           mode={mode}

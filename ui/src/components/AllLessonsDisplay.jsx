@@ -4,6 +4,8 @@ import Form from 'react-bootstrap/Form';
 import { useState } from 'react';
 import ButtonRenderer from './ButtonRenderer.jsx';
 import FormWrapper from './FormWrapper.jsx';
+import Alert from 'react-bootstrap/Alert';
+import Button from 'react-bootstrap/Button';
 
 const initialInputs = {
   title: '',
@@ -15,6 +17,7 @@ const AllLessonsDisplay = ({ setView, setLessonIdSelect, lessons, mode, handleNe
   const [isEditing, setIsEditing] = useState(false);
   const [inputs, setInputs] = useState(initialInputs);
   const [currentlySubmitting, setCurrentlySubmitting] = useState(false);
+  const [showAlert, setShowAlert] = useState(true);
 
   const handleLessonSelect = (id) => {
     setLessonIdSelect(id);
@@ -56,6 +59,33 @@ const AllLessonsDisplay = ({ setView, setLessonIdSelect, lessons, mode, handleNe
 
   return (
     <>
+      {showAlert === true ? (
+        <Alert variant="success">
+          <Alert.Heading>Welcome to student-teacher!</Alert.Heading>
+          <p>
+            This is a prototype of <b>student-teacher</b>, a simple application for building online
+            lessons. Currently, student-teacher is a simple CRUD application built on the MERN
+            stack.
+          </p>
+          <p>
+            Student-teacher will eventually need login and permission functionality. For now, users
+            can navigate the site and experiment with building new lessons.
+          </p>
+          <hr />
+          <p>
+            To get started, make sure that the button in the top-right corner reads
+            &apos;editing&apos;. You can toggle between editing and viewing with this button. Click
+            on an existing lesson or create your own!
+          </p>
+          <p>
+            Don&apos;t worry about messing up the lessons that are here. The database can be easily
+            reset to its past state. Do keep in mind that this website is semi-public, so others
+            will be able to see what you add. So please don&apos;t leave secret information like
+            passwords or such!
+          </p>
+          <Button onClick={() => setShowAlert(false)}>Close</Button>
+        </Alert>
+      ) : null}
       <div id="lessons">
         {lessons.map((lesson) => (
           <Card

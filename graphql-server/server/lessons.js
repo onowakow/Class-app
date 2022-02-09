@@ -1,19 +1,19 @@
-const { getDb, getNextSequence } = require('./db.js')
+const { getDb, getNextSequence } = require("./db.js");
 
 async function getLesson(lessonId) {
-  const db = getDb()
-  const lesson = await db.collection('lessons').findOne({ id: lessonId })
-  return lesson
+  const db = getDb();
+  const lesson = await db.collection("lessons").findOne({ id: lessonId });
+  return lesson;
 }
 
 const getArticle = (articleId, lesson) => {
-  const articles = lesson.sections
-  const article = articles.find(article => article.id === articleId)
-  return article
-}
+  const articles = lesson.sections;
+  const article = articles.find((article) => article.id === articleId);
+  return article;
+};
 
 async function addLesson(_, { lesson }) {
-  const db = getDb()
+  const db = getDb();
   const newLesson = lesson;
 
   newLesson.sections = [];
@@ -29,14 +29,13 @@ async function addLesson(_, { lesson }) {
 }
 
 async function lessonList() {
-  const db = getDb()
+  const db = getDb();
   const lessons = await db.collection("lessons").find({}).toArray();
   return lessons;
 }
 
-
 async function addArticle(_, { article, lessonId }) {
-  const db = getDb()
+  const db = getDb();
 
   // JSON parse/stringify seems janky, but it is the recommended apollographql workaround: https://github.com/apollographql/apollo-server/issues/3149
   const newArticle = JSON.parse(JSON.stringify(article));
@@ -72,21 +71,44 @@ async function addArticle(_, { article, lessonId }) {
   return updatedArticle;
 }
 
-async function modifyArticle (_, { article, lessonId, articleId }) {
-  const db = getDb()
+async function modifyArticle(_, { article, lessonId, articleId }) {
+  const db = getDb();
 
-  const newArticle = JSON.parse(JSON.stringify(article))
+  const newArticle = JSON.parse(JSON.stringify(article));
 
-  const query = { id: lessonId, "sections.id": articleId}
+  const query = { id: lessonId, "sections.id": articleId };
   const updateDocument = {
-    $set: { "sections.$.content": newArticle.content, "sections.$.title": newArticle.title }
-  }
+    $set: {
+      "sections.$.content": newArticle.content,
+      "sections.$.title": newArticle.title,
+    },
+  };
 
-  await db.collection("lessons").updateOne(query, updateDocument)
+  await db.collection("lessons").updateOne(query, updateDocument);
 
-  const updatedLesson = await getLesson(lessonId)
-  const updatedArticle = getArticle(articleId, updatedLesson)
-  return updatedArticle
+  const updatedLesson = await getLesson(lessonId);
+  const updatedArticle = getArticle(articleId, updatedLesson);
+  return updatedArticle;
 }
 
-module.exports = { modifyArticle, addArticle, addLesson, lessonList }
+async function deleteArticle(_, { lessonId, articleId }) {
+  const db = getDb();
+
+  const query = { id: lessonId };
+  const updateDocument = {
+    $pull: { sections: { id: articleId } },
+  };
+  const response = await db
+    .collection("lessons")
+    .updateOne(query, updateDocument);
+  const modifiedCount = response.modifiedCount;
+  return modifiedCount;
+}
+
+module.exports = {
+  modifyArticle,
+  addArticle,
+  addLesson,
+  lessonList,
+  deleteArticle,
+};

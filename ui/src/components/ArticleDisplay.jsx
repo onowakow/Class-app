@@ -14,8 +14,19 @@ const nullAlert = {
   content: null
 };
 
-const ArticleDisplay = ({ childComp, isEdit, setIsEdit, saveText, article, mode, lessonId }) => {
+const ArticleDisplay = ({
+  childComp,
+  isEdit,
+  setIsEdit,
+  saveText,
+  article,
+  mode,
+  lessonId,
+  handleDeleteArticle
+}) => {
   if (!article) return <>No articles yet!{childComp}</>;
+
+  const articleId = article.id;
 
   const title = article.title;
   const content = article.content;
@@ -71,6 +82,13 @@ const ArticleDisplay = ({ childComp, isEdit, setIsEdit, saveText, article, mode,
           <>
             <Button onClick={() => setIsEdit(true)} variant="primary" className="nav-btn">
               Edit title and content
+            </Button>
+            <Button
+              onClick={() => handleDeleteArticle(lessonId, articleId)}
+              variant="danger"
+              className="nav-btn"
+            >
+              Delete article
             </Button>
           </>
         ) : null}

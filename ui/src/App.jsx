@@ -10,11 +10,15 @@ import { Container, Row } from 'react-bootstrap';
 // Component imports
 import NavigationBar from './components/NavigationBar.jsx';
 import LessonDisplay from './components/LessonDisplay.jsx';
+import AllLessonsDisplay from './components/AllLessonsDisplay.jsx';
+
+// DB imports
 import getLessons from './utilities/getLessons.js';
 import newArticle from './utilities/newArticle.js';
 import newLesson from './utilities/newLesson.js';
 import editArticle from './utilities/editArticle.js';
-import AllLessonsDisplay from './components/AllLessonsDisplay.jsx';
+import deleteArticle from './utilities/deleteArticle';
+import { checkPropTypes } from 'prop-types';
 
 const App = () => {
   const [lessons, setLessons] = useState([]);
@@ -45,12 +49,21 @@ const App = () => {
     }
   };
 
+  const handleDeleteArticle = async (lessonId, articleId) => {
+    try {
+      await deleteArticle(lessonId, articleId);
+      await loadLessons();
+    } catch (err) {
+      console.log('Unable to delete article:', err);
+    }
+  };
+
   const handleNewArticle = async (title) => {
     try {
       const response = await newArticle(title, lessonIdSelect);
       const articleId = response.data.addArticle.id;
       await loadLessons();
-      setArticleIdSelect(articleId);
+      handleArticleIdSelect(articleId);
       setEditView('home');
     } catch (err) {
       console.log('Error', err);
@@ -65,6 +78,14 @@ const App = () => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const handleArticleIdSelect = (id) => {
+    if (id === articleIdSelect) {
+      // No action necessary
+      return;
+    }
+    setArticleIdSelect(id);
   };
 
   // editArticle needs article, lessonId, and articleId. REMEMBER when plugging it in.
@@ -109,8 +130,9 @@ const App = () => {
             />
           ) : view === 'lesson' ? (
             <LessonDisplay
+              handleDeleteArticle={handleDeleteArticle}
               handleEditText={handleEditText}
-              handleArticleIdSelect={setArticleIdSelect}
+              handleArticleIdSelect={handleArticleIdSelect}
               articleIdSelect={articleIdSelect}
               handleNewArticle={handleNewArticle}
               lesson={getLesson()}

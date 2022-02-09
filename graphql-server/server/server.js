@@ -1,7 +1,13 @@
 const fs = require("fs");
 const { ApolloServer } = require("apollo-server");
-const { connectToDb } = require('./db.js')
-const { modifyArticle, addArticle, addLesson, lessonList } = require('./lessons.js')
+const { connectToDb } = require("./db.js");
+const {
+  modifyArticle,
+  addArticle,
+  addLesson,
+  lessonList,
+  deleteArticle,
+} = require("./lessons.js");
 
 const resolvers = {
   Query: {
@@ -11,7 +17,8 @@ const resolvers = {
   Mutation: {
     addLesson,
     addArticle,
-    modifyArticle
+    modifyArticle,
+    deleteArticle,
   },
 };
 

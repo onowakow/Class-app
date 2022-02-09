@@ -3,12 +3,14 @@ import WarningModal from './WarningModal.jsx';
 import { useState } from 'react';
 
 // Side bar article nav
-const SectionNavigation = ({ isEdit, articles, handleArticleSelect }) => {
+const SectionNavigation = ({ isEdit, articles, handleArticleSelect, articleIdSelect }) => {
   const [showModal, setShowModal] = useState(false);
   // State for modal
   const [articleIdHold, setArticleIdHold] = useState(null);
 
   const handleNavClick = async (id) => {
+    if (articleIdSelect === id) return;
+
     if (isEdit) {
       setArticleIdHold(id);
       setShowModal(true);
