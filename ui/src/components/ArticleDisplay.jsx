@@ -18,7 +18,7 @@ const ArticleDisplay = ({
   childComp,
   isEdit,
   setIsEdit,
-  saveText,
+  modifyArticle,
   article,
   mode,
   lessonId,
@@ -27,6 +27,7 @@ const ArticleDisplay = ({
   if (!article) return <>No articles yet!{childComp}</>;
 
   const articleId = article.id;
+  const article_Id = article._id;
 
   const title = article.title;
   const content = article.content;
@@ -61,13 +62,13 @@ const ArticleDisplay = ({
 
   const handleTitleChange = (e) => [setEditedTitle(e.target.value)];
 
-  const handleSaveText = async () => {
+  const handleModifyArticle = async () => {
     const updatedArticle = {
       content: editedContent,
       title: editedTitle,
-      id: article.id
+      _id: article._id
     };
-    await saveText(updatedArticle, lessonId);
+    await modifyArticle(updatedArticle, lessonId);
     setIsEdit(false);
   };
 
@@ -84,7 +85,7 @@ const ArticleDisplay = ({
               Edit title and content
             </Button>
             <Button
-              onClick={() => handleDeleteArticle(lessonId, articleId)}
+              onClick={() => handleDeleteArticle(lessonId, article_Id)}
               variant="danger"
               className="nav-btn"
             >
@@ -116,7 +117,7 @@ const ArticleDisplay = ({
           </article>
           <SectionEditControlBar
             handleCancel={handleCancel}
-            saveText={handleSaveText}
+            saveText={handleModifyArticle}
             isEdit={isEdit}
           />
         </div>

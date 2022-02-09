@@ -1,4 +1,5 @@
 const { getDb, getNextSequence } = require("./db.js");
+const ObjectID = require("mongodb").ObjectID;
 
 async function getLesson(lessonId) {
   const db = getDb();
@@ -8,7 +9,7 @@ async function getLesson(lessonId) {
 
 const getArticle = (articleId, lesson) => {
   const articles = lesson.sections;
-  const article = articles.find((article) => article.id === articleId);
+  const article = articles[articleId];
   return article;
 };
 
@@ -45,12 +46,14 @@ async function addArticle(_, { article, lessonId }) {
     newArticle.content = "";
   }
 
+  // Get new objectID
+  newArticle._id = ObjectID();
+
   // Get list of articles (called sections) in question
   const currentLesson = await db
     .collection("lessons")
     .findOne({ id: lessonId });
   const sections = currentLesson.sections;
-  newArticle.id = sections.length + 1;
   sections.push(newArticle);
 
   const query = { id: lessonId };
@@ -60,23 +63,16 @@ async function addArticle(_, { article, lessonId }) {
 
   await db.collection("lessons").updateOne(query, updateDocument);
 
-  const updatedLesson = await db
-    .collection("lessons")
-    .findOne({ id: lessonId });
-
-  const updatedArticle = updatedLesson.sections.find(
-    (section) => section.id === newArticle.id
-  );
-  // return article
-  return updatedArticle;
+  return newArticle;
 }
 
-async function modifyArticle(_, { article, lessonId, articleId }) {
+async function modifyArticle(_, { article, lessonId, article_Id }) {
+  console.log(article, lessonId, article_Id);
   const db = getDb();
 
   const newArticle = JSON.parse(JSON.stringify(article));
 
-  const query = { id: lessonId, "sections.id": articleId };
+  const query = { id: lessonId, "sections._id": article_Id };
   const updateDocument = {
     $set: {
       "sections.$.content": newArticle.content,
@@ -87,16 +83,16 @@ async function modifyArticle(_, { article, lessonId, articleId }) {
   await db.collection("lessons").updateOne(query, updateDocument);
 
   const updatedLesson = await getLesson(lessonId);
-  const updatedArticle = getArticle(articleId, updatedLesson);
+  const updatedArticle = getArticle(article_Id, updatedLesson);
   return updatedArticle;
 }
 
-async function deleteArticle(_, { lessonId, articleId }) {
+async function deleteArticle(_, { lessonId, article_Id }) {
   const db = getDb();
 
   const query = { id: lessonId };
   const updateDocument = {
-    $pull: { sections: { id: articleId } },
+    $pull: { sections: { _id: article_Id } },
   };
   const response = await db
     .collection("lessons")

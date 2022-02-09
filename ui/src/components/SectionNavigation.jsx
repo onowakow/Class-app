@@ -39,12 +39,8 @@ const SectionNavigation = ({ isEdit, articles, handleArticleSelect, articleIdSel
         handleContinue={handleArticleNavigation}
         handleClose={handleModalClose}
       />
-      {articles.map((article) => (
-        <button
-          key={article.id}
-          className="section-nav-button"
-          onClick={() => handleNavClick(article.id)}
-        >
+      {articles.map((article, index) => (
+        <button key={index} className="section-nav-button" onClick={() => handleNavClick(index)}>
           <b>{article.title}</b>
         </button>
       ))}

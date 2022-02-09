@@ -16,9 +16,8 @@ import AllLessonsDisplay from './components/AllLessonsDisplay.jsx';
 import getLessons from './utilities/getLessons.js';
 import newArticle from './utilities/newArticle.js';
 import newLesson from './utilities/newLesson.js';
-import editArticle from './utilities/editArticle.js';
+import modifyArticle from './utilities/modifyArticle.js';
 import deleteArticle from './utilities/deleteArticle';
-import { checkPropTypes } from 'prop-types';
 
 const App = () => {
   const [lessons, setLessons] = useState([]);
@@ -26,7 +25,7 @@ const App = () => {
   const [view, setView] = useState('lessons');
   const [editView, setEditView] = useState('home');
   const [mode, setMode] = useState('editing');
-  const [articleIdSelect, setArticleIdSelect] = useState(1);
+  const [articleIdSelect, setArticleIdSelect] = useState(0);
 
   async function loadLessons() {
     try {
@@ -71,7 +70,6 @@ const App = () => {
   };
 
   const handleNewLesson = async (lessonInputs) => {
-    console.log(lessonInputs);
     try {
       await newLesson(lessonInputs.title, lessonInputs.description);
       await loadLessons();
@@ -89,9 +87,9 @@ const App = () => {
   };
 
   // editArticle needs article, lessonId, and articleId. REMEMBER when plugging it in.
-  const handleEditText = async (article, lessonId) => {
+  const handleModifyArticle = async (article, lessonId) => {
     try {
-      await editArticle(article, lessonId);
+      await modifyArticle(article, lessonId);
       await loadLessons();
       setEditView('home');
     } catch (error) {
@@ -101,6 +99,7 @@ const App = () => {
 
   const getLesson = () => {
     const findResult = lessons.find((lesson) => lesson.id === lessonIdSelect);
+    console.log(findResult);
     return findResult;
   };
 
@@ -131,7 +130,7 @@ const App = () => {
           ) : view === 'lesson' ? (
             <LessonDisplay
               handleDeleteArticle={handleDeleteArticle}
-              handleEditText={handleEditText}
+              modifyArticle={handleModifyArticle}
               handleArticleIdSelect={handleArticleIdSelect}
               articleIdSelect={articleIdSelect}
               handleNewArticle={handleNewArticle}

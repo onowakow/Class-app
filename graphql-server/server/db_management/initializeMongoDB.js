@@ -1,4 +1,5 @@
 const { MongoClient } = require("mongodb");
+const ObjectID = require("mongodb").ObjectID;
 
 require("dotenv").config();
 
@@ -24,28 +25,26 @@ async function initializeMongoDB() {
       lesson_description: "A beginner's guide to a popular framework",
       sections: [
         {
-          id: 1,
+          _id: ObjectID(),
           title: "Introduction",
           content:
             "Before starting this course, you should be familiar with JavaScript, HTML, and CSS.",
         },
         {
-          id: 2,
+          _id: ObjectID(),
           title: "Thinking in modules",
           content:
             "React splits the DOM into components and allows one to conditionally render and update components as the user interacts.",
         },
         {
-          id: 3,
+          _id: ObjectID(),
           title: "State",
-          content:
-            "State is what makes React components dynamic.",
+          content: "State is what makes React components dynamic.",
         },
         {
-          id: 4,
+          _id: ObjectID(),
           title: "Hooks",
-          content:
-            "With hooks, functional components can also have state.",
+          content: "With hooks, functional components can also have state.",
         },
       ],
     };
@@ -57,8 +56,7 @@ async function initializeMongoDB() {
     const counterCollection = db.collection("counters");
     await counterCollection.deleteOne({ _id: "lessons" });
     await counterCollection.insertOne({ _id: "lessons", current: 1 });
-    console.log('Reset lessons counter.')
-
+    console.log("Reset lessons counter.");
   } catch (err) {
     console.log("Failed to initialize DB. Error:", err);
   } finally {

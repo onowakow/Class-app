@@ -12,7 +12,7 @@ const initialInputs = {
 };
 
 const LessonDisplay = ({
-  handleEditText,
+  modifyArticle,
   lesson,
   mode,
   articleIdSelect,
@@ -39,7 +39,7 @@ const LessonDisplay = ({
 
   const getArticle = (lesson, articleId) => {
     const articles = getArticleList(lesson);
-    const article = articles.find((article) => article.id === articleId);
+    const article = articles[articleId];
     return article;
   };
 
@@ -93,7 +93,7 @@ const LessonDisplay = ({
           setIsEdit={setIsArticleEdit}
           mode={mode}
           lessonId={lesson.id}
-          saveText={handleEditText}
+          modifyArticle={modifyArticle}
           article={getArticle(lesson, articleIdSelect)}
         />
         {mode === 'editing' ? (
