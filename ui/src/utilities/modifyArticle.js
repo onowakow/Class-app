@@ -1,5 +1,4 @@
 async function modifyArticle(article, lessonId) {
-  console.log(article);
   const query = `
     mutation {
       modifyArticle(
@@ -16,6 +15,8 @@ async function modifyArticle(article, lessonId) {
       }
     }
   `;
+
+  console.log(query);
 
   const response = await fetch('http://localhost:3000', {
     method: 'POST',

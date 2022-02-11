@@ -67,12 +67,11 @@ async function addArticle(_, { article, lessonId }) {
 }
 
 async function modifyArticle(_, { article, lessonId, article_Id }) {
-  console.log(article, lessonId, article_Id);
   const db = getDb();
 
   const newArticle = JSON.parse(JSON.stringify(article));
 
-  const query = { id: lessonId, "sections._id": article_Id };
+  const query = { id: lessonId, "sections._id": ObjectID(article_Id) };
   const updateDocument = {
     $set: {
       "sections.$.content": newArticle.content,
@@ -81,7 +80,6 @@ async function modifyArticle(_, { article, lessonId, article_Id }) {
   };
 
   await db.collection("lessons").updateOne(query, updateDocument);
-
   const updatedLesson = await getLesson(lessonId);
   const updatedArticle = getArticle(article_Id, updatedLesson);
   return updatedArticle;
